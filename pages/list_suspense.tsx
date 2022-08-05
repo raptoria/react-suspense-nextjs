@@ -4,6 +4,7 @@ import { device, fetcher } from "./src/config";
 import useSWR from "swr";
 import Skeleton from "./src/skeleton";
 import ErrorBoundary from "./src/error";
+import Image from "next/image";
 
 interface Album {
   title: string;
@@ -39,17 +40,21 @@ const AlbumContainer = styled.div`
 
 const Albums = () => {
   //render as you fetch
-  //https://jsonplaceholder.typicode.com/photos
-  const { data } = useSWR("http://nuc:6969/wait?for=5000", fetcher, {
-    suspense: true,
-  });
+  //test API for very slow fetch: http://nuc:6969/wait?for=5000
+  const { data } = useSWR(
+    "https://jsonplaceholder.typicode.com/photos",
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
 
   return (
     data &&
-    data.map((album: Album) => (
+    data.splice(0, 10).map((album: Album) => (
       <AlbumThumnail key={album.id}>
         <a href={album.url} target="_blank">
-          <img src={album.thumbnailUrl} />
+          <Image src={album.thumbnailUrl} layout="fill" />
         </a>
         <span>{album.title}</span>
       </AlbumThumnail>
@@ -60,7 +65,7 @@ const Albums = () => {
 export const List = () => {
   return (
     <AlbumContainer>
-      <ErrorBoundary fallback={<div>HELP</div>}>
+      <ErrorBoundary fallback={<div>Oops! something went terribly wrong.</div>}>
         <Suspense fallback={<Skeleton />}>
           <Albums />
         </Suspense>

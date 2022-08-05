@@ -7,10 +7,8 @@ export const device = {
 };
 
 export const fetcher = async (url: string) => {
-  console.log("fetching");
   try {
     const res = await fetch(url);
-    console.log("finished fetching");
     return await res.json();
   } catch (error) {
     throw new Error(`There was a problem fetching the request ${error}`);

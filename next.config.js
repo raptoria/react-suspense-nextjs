@@ -4,12 +4,14 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     runtime: "experimental-edge",
-    serverComponents: true
+    serverComponents: true,
   },
   compiler: {
     styledComponents: true,
-  }
-}
+  },
+  images: {
+    domains: ["via.placeholder.com"],
+  },
+};
 
-module.exports = nextConfig
-
+module.exports = nextConfig;
